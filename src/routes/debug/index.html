@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<output id="headers"></output>
+
+		<title>Debug</title>
+	</head>
+
+	<body>
+		<output id="navbar"></output>
+
+		<main class="grid gap-5 p-10">
+			<div
+				data-hx-get="/api/timestamp"
+				data-hx-trigger="every 1s"
+				data-hx-swap="outerHTML"
+				data-hx-target="#timestamp"
+			></div>
+
+			<output id="timestamp">Loading...</output>
+
+			<div
+				data-hx-get="/api/sysinfo"
+				data-hx-trigger="every 100ms"
+				data-hx-swap="outerHTML"
+				data-hx-target="#sysinfo"
+			></div>
+
+			<output id="sysinfo"></output>
+		</main>
+	</body>
+</html>

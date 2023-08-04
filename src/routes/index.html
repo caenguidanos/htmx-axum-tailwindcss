@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<output id="headers"></output>
+
+		<title>Home</title>
+	</head>
+
+	<body>
+		<output id="navbar"></output>
+
+		<main class="flex gap-5 p-10 w-full">
+			<section class="flex flex-col gap-5 justify-center">
+				<img
+					src="/public/img/doggy.webp"
+					alt="doggy"
+					width="200px"
+					class="rounded shadow"
+				/>
+
+				<button
+					class="bg-slate-800 rounded px-2 py-1 text-white hover:bg-slate-700 active:bg-slate-900 max-w-[200px]"
+					data-hx-trigger="click"
+					data-hx-get="/api/call"
+					data-hx-swap="outerHTML"
+					data-hx-target="#say-hello"
+					data-hx-confirm="Are you sure you want to call the api?"
+				>
+					Call the API
+				</button>
+			</section>
+
+			<section class="w-full h-full flex">
+				<output id="say-hello"></output>
+			</section>
+		</main>
+	</body>
+</html>
