@@ -1,32 +1,26 @@
-<!DOCTYPE html>
-<html lang="en">
-	<head>
-		<output id="headers"></output>
+{% extends "components/layout.html" %}
 
-		<title>Debug</title>
-	</head>
+{% block title %}Debug{% endblock title %}
 
-	<body>
-		<output id="navbar"></output>
+{% block content %}
 
-		<main class="grid gap-5 p-10">
-			<div
-				data-hx-get="/api/timestamp"
-				data-hx-trigger="every 1s"
-				data-hx-swap="outerHTML"
-				data-hx-target="#timestamp"
-			></div>
+<main class="grid gap-5 p-10">
+  <div
+    data-hx-get="/api/timestamp"
+    data-hx-swap="outerHTML"
+    data-hx-target="#timestamp"
+    data-hx-trigger="load, every 1s"
+  ></div>
 
-			<output id="timestamp">Loading...</output>
+  <output id="timestamp"></output>
 
-			<div
-				data-hx-get="/api/sysinfo"
-				data-hx-trigger="every 100ms"
-				data-hx-swap="outerHTML"
-				data-hx-target="#sysinfo"
-			></div>
+  <div
+    data-hx-get="/api/sysinfo"
+    data-hx-swap="outerHTML"
+    data-hx-target="#sysinfo"
+    data-hx-trigger="load, every 100ms"
+  ></div>
 
-			<output id="sysinfo"></output>
-		</main>
-	</body>
-</html>
+  <output id="sysinfo"></output>
+</main>
+{% endblock content %}

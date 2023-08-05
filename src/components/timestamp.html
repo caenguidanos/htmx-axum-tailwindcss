@@ -1,18 +1,18 @@
 <p id="timestamp">
-	The current timestamp is:
-	<span class="text-green-600 transition-color ease-in-out duration-200">{value}</span>
+    The current timestamp is:
+    <span class="text-green-600 transition-color ease-in-out duration-200">{{ iso }}</span>
 </p>
 
 <script type="module">
-	import { setTimeout$ } from "/public/scripts/timers.mjs";
+    import { setTimeout$ } from "/public/scripts/timers.mjs";
 
-	setTimeout$(
-		"timestamp",
-		() => {
-			document
-				.querySelector("#timestamp span")
-				.classList.replace("text-green-600", "text-slate-600");
-		},
-		250
-	);
+    setTimeout$(
+        "timestamp",
+        () => {
+            document
+                .querySelector("#timestamp span")
+                .classList.replace("text-green-600", "text-slate-600");
+        },
+        250
+    );
 </script>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  {% block head %}
+  <meta charset="UTF-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <script src="https://unpkg.com/htmx.org@1.9.4"></script>
+
+  <title>{% block title %}{% endblock title %}</title>
+
+  <link href="/dist/out.css" rel="stylesheet">
+  {% endblock head %}
+</head>
+
+<body>
+<nav class="bg-slate-100 text-slate-800 p-3">
+  <ul class="flex gap-5 items-center">
+    <li>
+      <a
+        class="hover:bg-blue-200 p-2 rounded hover:text-blue-700 active:bg-blue-300"
+        href="/">Home</a>
+    </li>
+    <li>
+      <a
+        class="hover:bg-blue-200 p-2 rounded hover:text-blue-700 active:bg-blue-300"
+        href="/debug">Debug</a>
+    </li>
+  </ul>
+
+  <script type="module">
+      /**
+       * @param {HTMLAnchorElement} node
+       */
+      function disableAnchor(node) {
+          if (globalThis.location.href === node.href) {
+              node.style.pointerEvents = "none";
+              node.style.cursor = "not-allowed";
+
+              node.classList.remove("hover:bg-blue-200");
+              node.classList.remove("hover:text-blue-700");
+              node.classList.remove("active:bg-blue-300");
+
+              node.classList.add("text-slate-600");
+          }
+      }
+
+      document.querySelector("nav").querySelectorAll("a").forEach(disableAnchor);
+  </script>
+</nav>
+
+{% block content %}{% endblock content %}
+</body>
+</html>

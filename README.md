@@ -1,5 +1,6 @@
 htmx + axum + tailwindcss
 
 ```bash
-cargo run
+npm i
+npm start
 ```

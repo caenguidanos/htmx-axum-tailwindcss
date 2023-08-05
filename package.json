@@ -1,0 +1,11 @@
+{
+  "name": "htmx-axum",
+  "version": "1.0.0",
+  "description": "poc",
+  "scripts": {
+    "start": "tailwindcss -i ./src/main.css -o ./dist/out.css && cargo run --release"
+  },
+  "devDependencies": {
+    "tailwindcss": "3.3.3"
+  }
+}
