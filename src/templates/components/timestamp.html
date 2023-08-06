@@ -1,0 +1,10 @@
+<p id="timestamp">
+	The current timestamp is:
+	<span class="text-green-600 transition-color ease-in-out duration-200">{{ iso }}</span>
+</p>
+
+<script type="module">
+	import {onMount} from "/public/js/components/timestamp.mjs";
+
+	onMount(document.querySelector("#timestamp"));
+</script>

@@ -1,0 +1,26 @@
+{% extends "layouts/default.html" %}
+
+{% block title %}Debug{% endblock title %}
+
+{% block content %}
+
+<main class="grid gap-5 p-10">
+	<div
+		data-hx-get="/api/debug/timestamp"
+		data-hx-swap="outerHTML"
+		data-hx-target="#timestamp"
+		data-hx-trigger="load, every 1s"
+	></div>
+
+	<output id="timestamp"></output>
+
+	<div
+		data-hx-get="/api/debug/sys_info"
+		data-hx-swap="outerHTML"
+		data-hx-target="#sys-info"
+		data-hx-trigger="load, every 100ms"
+	></div>
+
+	<output id="sys-info"></output>
+</main>
+{% endblock content %}
