@@ -11,13 +11,15 @@
 </head>
 
 <body>
+
 <div
 	data-hx-get="/api/common/navbar"
 	data-hx-swap="outerHTML"
 	data-hx-target="#navbar"
 	data-hx-trigger="load"
 ></div>
-<output id="navbar"></output>
+
+<output class="bg-slate-100 h-[48px] w-full grid" id="navbar"></output>
 
 {% block content -%}{% endblock content -%}
 </body>

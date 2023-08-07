@@ -2,7 +2,6 @@ use std::sync::{Arc, Mutex};
 
 use axum::routing::get;
 use axum::Router;
-use lightningcss::stylesheet::{MinifyOptions, ParserOptions, PrinterOptions, StyleSheet};
 use sysinfo::{System, SystemExt};
 use tower_http::trace;
 use tower_http::trace::TraceLayer;
@@ -22,7 +21,8 @@ async fn main() {
 
     tracing_subscriber::fmt().compact().pretty().init();
 
-    process_dist().await;
+    routes::dist::build_static().await;
+    routes::dist::compress_all().await;
 
     let state = AppState {
         sys: Arc::new(Mutex::new(System::new_all())),
@@ -40,7 +40,10 @@ async fn main() {
                 .route("/debug/sys_info", get(routes::debug::api::sys_info))
                 .route("/common/navbar", get(routes::api::navbar)),
         )
-        .nest_service("/dist", tower_http::services::ServeDir::new("dist"))
+        .nest(
+            "/dist",
+            Router::new().route("/*file", get(routes::dist::file_handler)),
+        )
         .nest_service("/public", tower_http::services::ServeDir::new("public"))
         .with_state(state)
         .layer(
@@ -54,62 +57,6 @@ async fn main() {
 
     axum::Server::bind(&addr)
         .serve(app.into_make_service())
-        .await
-        .unwrap();
-}
-
-async fn process_dist() {
-    if tokio::fs::try_exists("./dist").await.unwrap() {
-        tokio::fs::remove_dir_all("./dist").await.unwrap();
-    }
-
-    process_dist_css().await;
-    process_dist_js().await;
-}
-
-async fn process_dist_js() {
-    tracing::info!("htmx build");
-
-    tokio::fs::create_dir_all("./dist/js").await.unwrap();
-
-    let htmx = reqwest::get("https://unpkg.com/htmx.org@1.9.4/dist/htmx.min.js")
-        .await
-        .unwrap()
-        .text()
-        .await
-        .unwrap();
-
-    tokio::fs::write("./dist/js/htmx.min.js", htmx)
-        .await
-        .unwrap();
-}
-
-async fn process_dist_css() {
-    tracing::info!("css build");
-
-    tokio::fs::create_dir_all("./dist/css").await.unwrap();
-
-    std::process::Command::new("node_modules/.bin/tailwindcss")
-        .args(["-i", "./src/main.css", "-o", "./dist/css/main.css"])
-        .output()
-        .expect("failed to build css");
-
-    let css_file = tokio::fs::read("./dist/css/main.css").await.unwrap();
-    let css_file_str = String::from_utf8_lossy(&css_file);
-
-    let mut stylesheet =
-        StyleSheet::parse(css_file_str.as_ref(), ParserOptions::default()).unwrap();
-
-    stylesheet.minify(MinifyOptions::default()).unwrap();
-
-    let css_file_min = stylesheet
-        .to_css(PrinterOptions {
-            minify: true,
-            ..Default::default()
-        })
-        .unwrap();
-
-    tokio::fs::write("./dist/css/main.min.css", css_file_min.code)
         .await
         .unwrap();
 }
