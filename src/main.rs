@@ -37,8 +37,7 @@ async fn main() {
             Router::new()
                 .route("/home/hello", get(routes::home::api::hello))
                 .route("/debug/timestamp", get(routes::debug::api::timestamp))
-                .route("/debug/sys_info", get(routes::debug::api::sys_info))
-                .route("/common/navbar", get(routes::api::navbar)),
+                .route("/debug/sys_info", get(routes::debug::api::sys_info)),
         )
         .nest(
             "/dist",
